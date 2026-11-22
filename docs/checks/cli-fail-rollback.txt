@@ -1,0 +1,14 @@
+$ C:\Users\Administrator\.venvs\hf-bgm\Scripts\python.exe -m app.cli_prompt_register --prompt-dir E:/Temp/prompt-register-checks-mjd6ep16/prompts-rollback
+# version 1.0.9 after 1.1.0 is a rollback: exit code 1
+[fail] code=version_regression file=answers/faq_answer.md version=1.0.9 version 1.0.9 of member_service/faq_answer is lower than the highest registered version 1.1.0; versions must increase monotonically
+[error] 1 content error(s); nothing was written
+exit-code 1
+prompt-register: org_id=00000000-0000-0000-0000-000000000000 (default (EVAL_ORG_ID unset)) created_by=ci-robot@example.invalid dry_run=False
+prompt-register: prompt directory E:\Temp\prompt-register-checks-mjd6ep16\prompts-rollback (4 file(s))
+[skip]    tool=billing_service prompt_key=refund_reply version=1.10.0 sha256=ab992c9cfc8b path=answers/refund_reply.md registered_path=answers/refund_reply.md (already registered with identical content)
+[skip]    tool=member_service prompt_key=escalation_note version=1.9.0 sha256=b0d975349a31 path=triage/escalation_note.md registered_path=triage/escalation_note.md (already registered with identical content)
+[skip]    tool=member_service prompt_key=intent_router version=1.0.0 sha256=6ce1049cb95b path=triage/intent_router.md registered_path=triage/intent_router.md (already registered with identical content)
+[skip]    tool=member_service prompt_key=thread_summary version=2.0.0 sha256=f1798dcc9f4f path=summary/thread_summary.md registered_path=summary/thread_summary.md (already registered with identical content)
+[error]   code=version_regression file=answers/faq_answer.md version=1.0.9 version 1.0.9 of member_service/faq_answer is lower than the highest registered version 1.1.0; versions must increase monotonically
+
+[exit code: 1]

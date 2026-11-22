@@ -1,0 +1,7 @@
+$ C:\Users\Administrator\.venvs\hf-bgm\Scripts\python.exe -m app.cli_prompt_register --prompt-dir prompts
+# database reachable but not migrated: exit code 2 (operational), not 1 (content)
+[error] database is reachable but not migrated (missing tables: ai_prompt_version, ai_model_profile, eval_run, eval_result); run alembic upgrade head first
+exit-code 2
+prompt-register: org_id=00000000-0000-0000-0000-000000000000 (default (EVAL_ORG_ID unset)) created_by=ci-robot@example.invalid dry_run=False
+
+[exit code: 2]

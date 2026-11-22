@@ -1,0 +1,7 @@
+$ C:\Users\Administrator\.venvs\hf-bgm\Scripts\python.exe -m app.cli_prompt_register --prompt-dir prompts
+# database host unreachable: exit code 2, still distinguishable from a content error
+[error] database driver for 'postgresql+psycopg' is not installed: No module named 'psycopg'; install requirements-postgres.txt or point DATABASE_URL at sqlite
+exit-code 2
+prompt-register: org_id=00000000-0000-0000-0000-000000000000 (default (EVAL_ORG_ID unset)) created_by=ci-robot@example.invalid dry_run=False
+
+[exit code: 2]

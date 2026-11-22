@@ -1,0 +1,14 @@
+$ C:\Users\Administrator\.venvs\hf-bgm\Scripts\python.exe -m app.cli_prompt_register --prompt-dir E:/Temp/prompt-register-checks-mjd6ep16/prompts-typo
+# front matter key mistyped as versoin: exit code 1, never ignored
+[fail] code=unknown_field file=triage/intent_router.md unknown front matter field(s): 'versoin'; allowed fields: tool, prompt_key, version, changelog; did you mean 'version' instead of 'versoin'?
+[error] 1 content error(s); nothing was written
+exit-code 1
+prompt-register: org_id=00000000-0000-0000-0000-000000000000 (default (EVAL_ORG_ID unset)) created_by=ci-robot@example.invalid dry_run=False
+prompt-register: prompt directory E:\Temp\prompt-register-checks-mjd6ep16\prompts-typo (4 file(s))
+[error]   tool=billing_service prompt_key=refund_reply version=1.10.0 sha256=ab992c9cfc8b path=answers/refund_reply.md (not written: the batch has errors)
+[error]   tool=member_service prompt_key=escalation_note version=1.9.0 sha256=b0d975349a31 path=triage/escalation_note.md (not written: the batch has errors)
+[error]   tool=member_service prompt_key=faq_answer version=1.1.0 sha256=58a3ed4f3f57 path=answers/faq_answer.md (not written: the batch has errors)
+[error]   tool=member_service prompt_key=thread_summary version=2.0.0 sha256=f1798dcc9f4f path=summary/thread_summary.md (not written: the batch has errors)
+[error]   code=unknown_field file=triage/intent_router.md unknown front matter field(s): 'versoin'; allowed fields: tool, prompt_key, version, changelog; did you mean 'version' instead of 'versoin'?
+
+[exit code: 1]

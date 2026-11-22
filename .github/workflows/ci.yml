@@ -1,0 +1,50 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  eval-lint:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: ci
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: "postgresql+psycopg://ci:ci@localhost:5432/ci"
+      PROMPT_CREATED_BY: "ci@example.invalid"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-postgres.txt -r requirements-dev.txt
+      - name: migrate
+        run: python -m alembic upgrade head
+      # Registry must run BEFORE eval-lint: lint scores against registered versions.
+      - name: prompt-register
+        run: python -m app.cli_prompt_register --prompt-dir prompts
+      - name: eval-lint
+        run: |
+          python -m pytest -q tests/test_frontmatter.py tests/test_dependency_rules.py
+      # The suite builds its own SQLite databases; DATABASE_URL is cleared so a
+      # developer's local configuration can never leak into CI.
+      - name: pytest
+        env:
+          DATABASE_URL: ""
+          PROMPT_CREATED_BY: ""
+        run: python -m pytest -q

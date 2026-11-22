@@ -1,0 +1,6 @@
+$ C:\Users\Administrator\.venvs\hf-bgm\Scripts\python.exe -m pytest -q
+# full test suite on SQLite (no PostgreSQL server, no psycopg)
+......................................................                   [100%]
+54 passed in 2.42s
+
+[exit code: 0]

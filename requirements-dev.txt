@@ -1,0 +1,4 @@
+# Development / test dependencies. All tests run on SQLite, so psycopg is NOT needed.
+-r requirements.txt
+pytest>=8.0,<10.0
+httpx>=0.27,<1.0

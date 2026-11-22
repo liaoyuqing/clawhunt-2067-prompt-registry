@@ -1,0 +1,5 @@
+$ C:\Users\Administrator\.venvs\hf-bgm\Scripts\python.exe -m app.dbcheck init
+# create the schema on SQLite (production uses alembic upgrade head)
+schema ready in sqlite:///E:/Temp/prompt-register-checks-mjd6ep16/registry.db
+
+[exit code: 0]
