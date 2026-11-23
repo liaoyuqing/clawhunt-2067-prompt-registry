@@ -1,0 +1,71 @@
+# AC3 -- both endpoints, over a real socket, against the database above.
+
+$ curl -s http://127.0.0.1:55546/healthz
+HTTP 200
+{
+  "database_configured": true,
+  "default_org_id": "00000000-0000-0000-0000-000000000000",
+  "status": "ok"
+}
+
+# 1. every registered version with its MOST RECENT run
+$ curl -s http://127.0.0.1:55546/api/eval/prompt-versions/member_service/faq_answer/history
+HTTP 200
+{
+  "org_id": "00000000-0000-0000-0000-000000000000",
+  "prompt_key": "faq_answer",
+  "tool": "member_service",
+  "versions": [
+    {
+      "created_at": "2026-11-23T01:23:05.132802",
+      "latest_pass_rate": 0.8,
+      "latest_run_finished_at": "2026-11-22T09:23:00",
+      "latest_run_id": "51ad30c2-0715-4465-b058-b777eaabb3c1",
+      "version": "1.1.0"
+    },
+    {
+      "created_at": "2026-11-23T01:23:06.623832",
+      "latest_pass_rate": null,
+      "latest_run_finished_at": null,
+      "latest_run_id": null,
+      "version": "1.2.0"
+    }
+  ]
+}
+
+# 1.1.0 -> 0.8  (the third run, 0.8; not the first, 0.6, and not the mean, 0.7667)
+# 1.2.0 -> null  (registered but never evaluated: null, never 0.0)
+
+# 2. the versions one specific run actually exercised (not the whole registry)
+$ curl -s http://127.0.0.1:55546/api/eval/runs/51ad30c2-0715-4465-b058-b777eaabb3c1/versions
+HTTP 200
+{
+  "run_id": "51ad30c2-0715-4465-b058-b777eaabb3c1",
+  "status": "finished",
+  "tool": "member_service",
+  "versions": [
+    {
+      "content_sha256": "58a3ed4f3f574dc2cbced60c357576ed7ba6d8776b06e61f0832b755e8158e77",
+      "prompt_key": "faq_answer",
+      "tool": "member_service",
+      "version": "1.1.0"
+    }
+  ]
+}
+# the registry holds 6 versions at this point; this run reports 1.
+
+# 3. a run id that does not exist
+$ curl -s http://127.0.0.1:55546/api/eval/runs/00000000-0000-0000-0000-000000000000/versions
+HTTP 404
+{"detail":"no evaluation run 00000000-0000-0000-0000-000000000000 in this organisation"}
+
+# 4. the same run id, seen from another organisation (404, not 403: 403 would
+#    confirm the id exists)
+$ curl -s -H "X-Org-Id: 22222222-2222-2222-2222-222222222222" http://127.0.0.1:55546/api/eval/runs/51ad30c2-0715-4465-b058-b777eaabb3c1/versions
+HTTP 404
+{"detail":"no evaluation run 51ad30c2-0715-4465-b058-b777eaabb3c1 in this organisation"}
+
+# 5. the same history path from another organisation
+$ curl -s -H "X-Org-Id: 22222222-2222-2222-2222-222222222222" http://127.0.0.1:55546/api/eval/prompt-versions/member_service/faq_answer/history
+HTTP 404
+{"detail":"no registered prompt version for tool='member_service' prompt_key='faq_answer' in this organisation"}

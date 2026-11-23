@@ -1,0 +1,14 @@
+# AC3 -- three successive evaluation runs of the SAME version 1.1.0. The history endpoint
+#        must report the pass rate of the most recent run, not the first and not the mean.
+$ python scripts/replay_history.py build/v2/db/run.sqlite3
+seeded run 25db8064-bbcc-4002-bb5c-b3408f7a7b97 passed=3 total=5 rate=0.6000
+seeded run 86ae1b0f-a626-4444-bd87-205240964988 passed=9 total=10 rate=0.9000
+seeded run 51ad30c2-0715-4465-b058-b777eaabb3c1 passed=4 total=5 rate=0.8000
+[exit code: 0]
+
+# the same three runs, read straight out of the database:
+run 25db8064bbcc4002bb5cb3408f7a7b97 finished_at=2026-11-22 09:03:00.000000 passed=3 total=5 rate=0.6000
+run 86ae1b0fa6264444bd87205240964988 finished_at=2026-11-22 09:13:00.000000 passed=9 total=10 rate=0.9000
+run 51ad30c207154465b058b777eaabb3c1 finished_at=2026-11-22 09:23:00.000000 passed=4 total=5 rate=0.8000
+
+# 0.6000 / 0.9000 / 0.8000, mean 0.7667 - three distinguishable candidates.

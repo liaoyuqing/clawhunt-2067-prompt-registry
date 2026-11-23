@@ -1,0 +1,18 @@
+# AC1 -- the body of member_service/faq_answer changed in place, version left at 1.1.0
+# input: a copy of prompts/ with exactly one extra body line in answers/faq_answer.md
+# must: exit non-zero, emit code=version_content_conflict, write NOTHING
+$ python -m app.cli_prompt_register --prompt-dir build/v2/ac1_prompts
+prompt-register: org_id=00000000-0000-0000-0000-000000000000 (default (EVAL_ORG_ID unset)) created_by=platform-ops@example.invalid dry_run=False
+prompt-register: prompt directory build\v2\ac1_prompts (4 file(s))
+[skip]    tool=billing_service prompt_key=refund_reply version=1.10.0 sha256=ab992c9cfc8b path=answers/refund_reply.md registered_path=answers/refund_reply.md (already registered with identical content)
+[skip]    tool=member_service prompt_key=escalation_note version=1.9.0 sha256=b0d975349a31 path=triage/escalation_note.md registered_path=triage/escalation_note.md (already registered with identical content)
+[skip]    tool=member_service prompt_key=intent_router version=1.0.0 sha256=6ce1049cb95b path=triage/intent_router.md registered_path=triage/intent_router.md (already registered with identical content)
+[skip]    tool=member_service prompt_key=thread_summary version=2.0.0 sha256=f1798dcc9f4f path=summary/thread_summary.md registered_path=summary/thread_summary.md (already registered with identical content)
+[error]   code=version_content_conflict file=answers/faq_answer.md version=1.1.0 version 1.1.0 of member_service/faq_answer is already registered from answers/faq_answer.md with a different content hash (58a3ed4f3f57... vs 0d5d42737843...); raise the version number instead of editing a registered version in place
+[fail] code=version_content_conflict file=answers/faq_answer.md version=1.1.0 version 1.1.0 of member_service/faq_answer is already registered from answers/faq_answer.md with a different content hash (58a3ed4f3f57... vs 0d5d42737843...); raise the version number instead of editing a registered version in place
+[error] 1 content error(s); nothing was written
+exit-code 1
+[exit code: 1]
+# (the 'file(s)' count on the header line counts action entries only; the conflicting
+#  file is reported as an error instead, so 5 files - 1 error = 4 actions)
+ai_prompt_version rows: 5 -> 5

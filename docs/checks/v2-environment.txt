@@ -1,0 +1,37 @@
+# interpreter and the exact package versions every number below was produced with
+$ python -V
+Python 3.11.9
+[exit code: 0]
+
+$ python -m pip list --format=freeze        (filtered to the runtime + test stack)
+alembic==1.18.4
+fastapi==0.136.1
+httpx==0.28.1
+pydantic==2.14.4
+pytest==9.2.0
+PyYAML==6.0.2
+SQLAlchemy==2.0.49
+uvicorn==0.47.0
+[exit code: 0]
+
+# A PostgreSQL driver is deliberately absent: every measurement below runs on SQLite.
+# The production path (alembic upgrade head against PostgreSQL 16) is covered separately
+# in v2-install.txt; it cannot be executed on a machine without a server, and this file
+# says so instead of pretending otherwise.
+$ python -c "import psycopg"
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'psycopg'
+[exit code: 1]
+
+$ # is a PostgreSQL server reachable on 127.0.0.1:5432?
+no listener on 5432
+[exit code: 0]
+
+# Nothing below needs a server, a credential, a token or an environment variable:
+# the suite builds its own SQLite databases, exactly as CI runs it.
+$ unset DATABASE_URL PROMPT_CREATED_BY
+$ python -m pytest -q
+......................................................                   [100%]
+54 passed in 5.63s
+[exit code: 0]

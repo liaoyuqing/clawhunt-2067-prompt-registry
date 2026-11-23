@@ -1,0 +1,13 @@
+$ python -m pytest --collect-only -q
+tests/test_api_eval.py: 11
+tests/test_dependency_rules.py: 5
+tests/test_eval_binding.py: 5
+tests/test_frontmatter.py: 10
+tests/test_model_profile.py: 5
+tests/test_prompt_register.py: 17
+tests/test_scenario_demo.py: 1
+
+test files: 7
+test cases: 54
+
+[exit code: 0]

@@ -475,3 +475,14 @@ python scripts/capture_api_examples.py  # 重写 docs/checks/api-examples.txt（
 
 两个脚本都用临时目录里的独立 SQLite 库，不会污染开发库，也不需要 PostgreSQL。
 脚本会检查每个命令的退出码是否符合预期，不符合则自身退出码非 0。
+
+补充证据（第二轮，针对 delivery_check 的三项 unclear）用一条命令重跑：
+
+```bash
+python scripts/capture_checks_v2.py     # 重写 docs/checks/v2-*.txt（10 个文件）并自检退出码
+```
+
+它逐条捕获「依赖与运行环境 / 四个 AC 的复现步骤 / 实测数字」，末行打印
+`all captured commands matched their expectations` 才算通过；对应的说明与逐条对照表见
+[docs/DELIVERY-EVIDENCE.md](docs/DELIVERY-EVIDENCE.md) 的「补充证据 v2」一节。
+数据落在 `build/v2/db/`（已在 `.gitignore` 内），跑完不会在仓库里留下数据库文件。

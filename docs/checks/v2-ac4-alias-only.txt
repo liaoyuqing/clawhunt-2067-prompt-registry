@@ -1,0 +1,38 @@
+# AC4 -- ai_model_profile keeps a name, an alias and sampling parameters; the address
+#        lives in the deployment environment and is never written to the database.
+
+# (no sqlite3 CLI is installed here, so the two inspections below are python one-liners
+#  that need nothing beyond the project's own dependencies)
+$ python -c "import sqlite3; c=sqlite3.connect('build/v2/db/run.sqlite3'); print(','.join(r[1] for r in c.execute('PRAGMA table_info(ai_model_profile)')))"
+id,name,endpoint_alias,params,org_id,site_id,created_at,created_by,updated_at,deleted_at
+[exit code: 0]
+ai_prompt_version columns: id,tool,prompt_key,version,version_major,version_minor,version_patch,content_sha256,file_path,changelog,org_id,site_id,created_at,created_by,updated_at,deleted_at
+# no url / base_url / endpoint_address column exists, and none of the four tables
+# carries an address anywhere in a row.
+
+$ python -m app.cli_model_profile --name model.main --endpoint-alias model.main --temperature 0.2 --max-tokens 1024
+model-profile: insert name=model.main alias=model.main params={"max_tokens": 1024, "temperature": 0.2} address_from_env=MODEL_ALIAS_MODEL_MAIN
+exit-code 0
+[exit code: 0]
+
+$ python -c "import sqlite3; c=sqlite3.connect('build/v2/db/run.sqlite3'); print(c.execute('select name, endpoint_alias, params from ai_model_profile').fetchone())"
+('model.main', 'model.main', '{"temperature": 0.2, "max_tokens": 1024}')
+[exit code: 0]
+
+# every table, every row, every string column, scanned for a literal http(s) address:
+tables: ai_model_profile, ai_prompt_version, eval_result, eval_run
+http literal hits: 0
+
+# the alias turns into an address only through the environment, at call time:
+$ python -c "from app import config; print(config.alias_env_var('model.main'))"
+MODEL_ALIAS_MODEL_MAIN
+[exit code: 0]
+
+# and with the variable unset it fails loudly rather than falling back to a default:
+$ python -c "from app import config; print(config.resolve_model_endpoint('model.main'))"
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "app\config.py", line 119, in resolve_model_endpoint
+    raise ConfigError(
+app.config.ConfigError: model endpoint alias 'model.main' has no target configured: set MODEL_ALIAS_MODEL_MAIN to the real base address for this deployment
+[exit code: 1]

@@ -1,0 +1,14 @@
+# AC1 control -- the very same body change, but WITH the version bumped to 1.2.0
+# must: exit 0 and insert exactly one new row
+$ python -m app.cli_prompt_register --prompt-dir build/v2/ac1_prompts
+prompt-register: org_id=00000000-0000-0000-0000-000000000000 (default (EVAL_ORG_ID unset)) created_by=platform-ops@example.invalid dry_run=False
+prompt-register: prompt directory build\v2\ac1_prompts (5 file(s))
+[skip]    tool=billing_service prompt_key=refund_reply version=1.10.0 sha256=ab992c9cfc8b path=answers/refund_reply.md registered_path=answers/refund_reply.md (already registered with identical content)
+[skip]    tool=member_service prompt_key=escalation_note version=1.9.0 sha256=b0d975349a31 path=triage/escalation_note.md registered_path=triage/escalation_note.md (already registered with identical content)
+[insert]  tool=member_service prompt_key=faq_answer version=1.2.0 sha256=0b20573dd751 path=answers/faq_answer.md (new version)
+[skip]    tool=member_service prompt_key=intent_router version=1.0.0 sha256=6ce1049cb95b path=triage/intent_router.md registered_path=triage/intent_router.md (already registered with identical content)
+[skip]    tool=member_service prompt_key=thread_summary version=2.0.0 sha256=f1798dcc9f4f path=summary/thread_summary.md registered_path=summary/thread_summary.md (already registered with identical content)
+prompt-register: inserted 1, skipped 4, total 5
+exit-code 0
+[exit code: 0]
+ai_prompt_version rows: 5 -> 6
