@@ -1,0 +1,11 @@
+$ python scripts/verify_alias_only.py build/v3/run.sqlite3
+[1] ai_model_profile columns: id, name, endpoint_alias, params, org_id, site_id, created_at, created_by, updated_at, deleted_at
+    no url/base_url/endpoint_url/address column; only endpoint_alias
+[2] scanned 369 value(s) across 4 table(s): ai_model_profile, ai_prompt_version, eval_result, eval_run
+    http(s) literal hits: 0
+[3] alias 'model.main' -> environment variable MODEL_ALIAS_MODEL_MAIN
+    unresolved without MODEL_ALIAS_MODEL_MAIN: ConfigError: model endpoint alias 'model.main' has no target configured: set MODEL_ALIAS_MODEL_MAIN to the real base address for this deployment
+    resolved from MODEL_ALIAS_MODEL_MAIN -> https://gateway.example.invalid/v1 (never stored)
+[4] ORM columns: created_at, created_by, deleted_at, endpoint_alias, id, name, org_id, params, site_id, updated_at
+all AC4 checks passed: only an alias is stored, the address stays in the environment
+[exit code: 0]

@@ -1,0 +1,50 @@
+$ python scripts/query_history.py build/v3/run.sqlite3
+$ curl -s /api/eval/prompt-versions/member_service/faq_answer/history
+HTTP 200
+{
+  "org_id": "00000000-0000-0000-0000-000000000000",
+  "prompt_key": "faq_answer",
+  "tool": "member_service",
+  "versions": [
+    {
+      "created_at": "2026-11-24T06:58:46.681291",
+      "latest_pass_rate": 0.8,
+      "latest_run_finished_at": "2026-11-22T09:23:00",
+      "latest_run_id": "fefab67a-6fca-4258-bb27-6151d50f6e8a",
+      "version": "1.1.0"
+    }
+  ]
+}
+
+latest_pass_rate=0.8 for version 1.1.0 (run fefab67a-6fca-4258-bb27-6151d50f6e8a)
+
+$ curl -s /api/eval/runs/fefab67a-6fca-4258-bb27-6151d50f6e8a/versions
+HTTP 200
+{
+  "run_id": "fefab67a-6fca-4258-bb27-6151d50f6e8a",
+  "status": "finished",
+  "tool": "member_service",
+  "versions": [
+    {
+      "content_sha256": "58a3ed4f3f574dc2cbced60c357576ed7ba6d8776b06e61f0832b755e8158e77",
+      "prompt_key": "faq_answer",
+      "tool": "member_service",
+      "version": "1.1.0"
+    }
+  ]
+}
+
+$ curl -s -H 'X-Org-Id: 22222222-2222-2222-2222-222222222222' /api/eval/runs/fefab67a-6fca-4258-bb27-6151d50f6e8a/versions
+HTTP 404
+{
+  "detail": "no evaluation run fefab67a-6fca-4258-bb27-6151d50f6e8a in this organisation"
+}
+
+$ curl -s /api/eval/runs/00000000-0000-0000-0000-000000000000/versions
+HTTP 404
+{
+  "detail": "no evaluation run 00000000-0000-0000-0000-000000000000 in this organisation"
+}
+
+all query endpoints behaved as documented
+[exit code: 0]

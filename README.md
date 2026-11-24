@@ -8,6 +8,8 @@
 - 全部配置只从环境变量读取，仓库内**没有任何**地址、连接串、密钥字面量（由 `tests/test_dependency_rules.py` 静态扫描锁死）
 - 全部测试数据为虚构内容，不含任何真实企业或个人信息
 
+> 验收核对表：[ACCEPTANCE-EVIDENCE.md](ACCEPTANCE-EVIDENCE.md) —— 一条验收标准一行，给出实现位置、pytest 节点 id、可原样执行的命令、断言的具体值与证据文件。
+
 ---
 
 ## 1. 快速开始（三条命令）
@@ -110,6 +112,10 @@ docs/
 scripts/
   capture_checks.py       重新生成 docs/checks/*.txt
   capture_api_examples.py 重新生成 README 里引用的 HTTP 报文
+  capture_checks_v2.py    重新生成 docs/checks/v2-*.txt 并断言每条命令的退出码
+  capture_checks_v3.py    重新生成 docs/checks/v3-*.txt（AC3/AC4 两个可执行核对）
+  verify_alias_only.py    核对 AC4：库里只有别名；--plant-address 做反向验证
+  query_history.py        核对 AC3：打印两个查询接口的真实报文
 ```
 
 ---
